@@ -11,8 +11,8 @@
     "url": "git+https://github.com/iamfrank/geolocation.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Frank R Thomsen",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/iamfrank/geolocation/issues"
   },

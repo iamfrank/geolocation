@@ -3,6 +3,7 @@ export default class GeoLoc {
     enableHighAccuracy: true,
     timeout: 600000, // 10 minutes max
     maximumAge: 10000,
+    accuracyThreshold: 10,
   };
   geolocationResult = null;
   geolocationResultCache = [];
@@ -14,7 +15,7 @@ export default class GeoLoc {
       this.status = "Geolocation is not supported by your browser";
       console.error(this.status);
     } else if (options) {
-      this.options = options;
+      this.options = Object.assign({}, options);
     }
   }
 
@@ -35,6 +36,15 @@ export default class GeoLoc {
   }
   get crs() {
     return "WGS84";
+  }
+  get isAccurate() {
+    if (
+      this.geolocationResult.coords.accuracy < this.options.accuracyThreshold
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getPosition() {
@@ -129,6 +139,10 @@ export default class GeoLoc {
       "decimal degrees",
     );
     htmlContent += this.renderDefinition("accuracy", posData.accuracy, "m");
+    htmlContent += this.renderDefinition(
+      "Is that very accurate?",
+      this.isAccurate,
+    );
     htmlContent += this.renderDefinition("altitude", posData.altitude, "m");
     htmlContent += this.renderDefinition(
       "altitudeAccuracy",
@@ -141,6 +155,7 @@ export default class GeoLoc {
       "Timestamp",
       new Date(this.geolocationResult.timestamp).toLocaleString(),
     );
+
     htmlContent += "</dl>";
     element.innerHTML = htmlContent;
     return htmlContent;
