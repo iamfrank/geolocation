@@ -1,0 +1,20 @@
+<!doctype html>
+<head>
+  <title>Example use of Geolocation functions</title>
+</head>
+<body>
+  <p>Nothing yet</p>
+
+  <script type="module">
+    import GeoLoc from "./index.js";
+    const geol = new GeoLoc();
+
+    document.body.addEventListener("change:geolocation", (ev) => {
+      console.log("Got position as event", ev.detail);
+      document.body.querySelector("p").innerHTML = geol.renderHTML();
+    });
+
+    const position = await geol.getPosition();
+    console.log("Got position as Promise", position);
+  </script>
+</body>
